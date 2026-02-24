@@ -1,0 +1,17 @@
+{
+  "name": "papertrade",
+  "version": "1.0.0",
+  "description": "AI-Powered Stock Trading Simulator",
+  "private": true,
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:49499/git/AJ-damco/Paper-Trade"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
