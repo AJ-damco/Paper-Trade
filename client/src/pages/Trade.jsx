@@ -56,23 +56,19 @@ export default function Trade() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-white">Trade</h1>
+      <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>Trade</h1>
 
       {/* Trade Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="bg-gray-900 rounded-xl border border-gray-800 p-6 space-y-5"
-      >
+      <form onSubmit={handleSubmit} className="theme-card p-6 space-y-5">
         {/* Buy / Sell Toggle */}
-        <div className="flex bg-gray-800 rounded-lg p-1">
+        <div className="flex rounded-lg p-1" style={{ background: "var(--bg-input)" }}>
           <button
             type="button"
             onClick={() => setAction("buy")}
             className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-              action === "buy"
-                ? "bg-emerald-600 text-white"
-                : "text-gray-400 hover:text-white"
+              action === "buy" ? "bg-emerald-600 text-white" : ""
             }`}
+            style={action !== "buy" ? { color: "var(--text-secondary)" } : {}}
           >
             Buy
           </button>
@@ -80,10 +76,9 @@ export default function Trade() {
             type="button"
             onClick={() => setAction("sell")}
             className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-              action === "sell"
-                ? "bg-red-600 text-white"
-                : "text-gray-400 hover:text-white"
+              action === "sell" ? "bg-red-600 text-white" : ""
             }`}
+            style={action !== "sell" ? { color: "var(--text-secondary)" } : {}}
           >
             Sell
           </button>
@@ -91,38 +86,40 @@ export default function Trade() {
 
         {/* Symbol Select */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Symbol</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
+            Symbol
+          </label>
           <select
             value={symbol}
             onChange={(e) => setSymbol(e.target.value)}
             required
-            className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            className="w-full px-4 py-2.5 rounded-lg theme-input"
           >
             <option value="">Select a stock...</option>
             {symbols.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
+              <option key={s} value={s}>{s}</option>
             ))}
           </select>
         </div>
 
         {/* Quote Display */}
         {quote && (
-          <div className="bg-gray-800/50 rounded-lg px-4 py-3 flex items-center justify-between">
+          <div className="rounded-lg px-4 py-3 flex items-center justify-between" style={{ background: "var(--bg-input)" }}>
             <div>
-              <span className="text-white font-semibold text-lg">{quote.symbol}</span>
-              <span className={`ml-3 text-sm ${quote.change >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+              <span className="font-semibold text-lg" style={{ color: "var(--text-primary)" }}>{quote.symbol}</span>
+              <span className={`ml-3 text-sm ${quote.change >= 0 ? "text-emerald-500" : "text-red-500"}`}>
                 {quote.change >= 0 ? "+" : ""}{quote.change} ({quote.changePercent}%)
               </span>
             </div>
-            <span className="text-white text-xl font-bold">{formatMoney(quote.price)}</span>
+            <span className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>{formatMoney(quote.price)}</span>
           </div>
         )}
 
         {/* Quantity */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Quantity</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
+            Quantity
+          </label>
           <input
             type="number"
             min="1"
@@ -130,20 +127,23 @@ export default function Trade() {
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
             required
-            className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            className="w-full px-4 py-2.5 rounded-lg theme-input"
             placeholder="Number of shares"
           />
         </div>
 
         {/* Estimated Total */}
         {estimatedTotal > 0 && (
-          <div className="text-right text-gray-400 text-sm">
-            Estimated total: <span className="text-white font-medium">{formatMoney(estimatedTotal)}</span>
+          <div className="text-right text-sm" style={{ color: "var(--text-muted)" }}>
+            Estimated total:{" "}
+            <span className="font-medium" style={{ color: "var(--text-primary)" }}>
+              {formatMoney(estimatedTotal)}
+            </span>
           </div>
         )}
 
         {error && (
-          <div className="bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded-lg text-sm">
+          <div className="bg-red-500/10 border border-red-500/30 text-red-500 px-4 py-3 rounded-lg text-sm">
             {error}
           </div>
         )}
@@ -152,9 +152,7 @@ export default function Trade() {
           type="submit"
           disabled={loading || !symbol || !quantity}
           className={`w-full font-medium py-2.5 px-4 rounded-lg transition-colors disabled:opacity-50 text-white ${
-            action === "buy"
-              ? "bg-emerald-600 hover:bg-emerald-700"
-              : "bg-red-600 hover:bg-red-700"
+            action === "buy" ? "bg-emerald-600 hover:bg-emerald-700" : "bg-red-600 hover:bg-red-700"
           }`}
         >
           {loading
@@ -165,8 +163,8 @@ export default function Trade() {
 
       {/* Result */}
       {result && (
-        <div className="bg-gray-900 rounded-xl border border-gray-800 p-6">
-          <h3 className="text-lg font-semibold text-emerald-400 mb-3">Trade Executed</h3>
+        <div className="theme-card p-6">
+          <h3 className="text-lg font-semibold text-emerald-500 mb-3">Trade Executed</h3>
           <div className="space-y-2 text-sm">
             <Row label="Action" value={result.transaction.type} />
             <Row label="Symbol" value={result.transaction.symbol} />
@@ -178,7 +176,7 @@ export default function Trade() {
               <Row
                 label="Profit/Loss"
                 value={formatMoney(result.profitLoss.total)}
-                valueClass={result.profitLoss.total >= 0 ? "text-emerald-400" : "text-red-400"}
+                valueColor={result.profitLoss.total >= 0 ? "#10b981" : "#ef4444"}
               />
             )}
           </div>
@@ -188,11 +186,11 @@ export default function Trade() {
   );
 }
 
-function Row({ label, value, valueClass = "text-white" }) {
+function Row({ label, value, valueColor }) {
   return (
     <div className="flex justify-between">
-      <span className="text-gray-400">{label}</span>
-      <span className={`font-medium ${valueClass}`}>{value}</span>
+      <span style={{ color: "var(--text-muted)" }}>{label}</span>
+      <span className="font-medium" style={{ color: valueColor || "var(--text-primary)" }}>{value}</span>
     </div>
   );
 }

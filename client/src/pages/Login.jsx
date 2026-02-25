@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
+import EmojiCharacters from "../components/EmojiCharacters";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const { login } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -25,65 +29,116 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-950 px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white">PaperTrade</h1>
-          <p className="text-gray-400 mt-2">Practice trading with virtual money</p>
+    <div className="min-h-screen flex auth-bg">
+      {/* Theme toggle */}
+      <button
+        onClick={toggleTheme}
+        className="absolute top-5 right-5 z-20 p-2.5 rounded-xl glass-card hover:scale-105 transition-transform"
+        title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+      >
+        {theme === "dark" ? (
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: "var(--text-primary)" }}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        ) : (
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: "var(--text-primary)" }}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        )}
+      </button>
+
+      <div className="auth-blob" />
+
+      {/* Left half - Characters */}
+      <div className="hidden lg:flex flex-1 items-center justify-center relative z-10">
+        <div className="text-center">
+          <EmojiCharacters peeking={!passwordFocused} />
+          <div className="mt-8">
+            <h2 className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
+              Welcome Back!
+            </h2>
+            <p className="mt-2 text-lg" style={{ color: "var(--text-secondary)" }}>
+              Your portfolio is waiting for you
+            </p>
+          </div>
         </div>
+      </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="bg-gray-900 rounded-xl p-8 shadow-lg border border-gray-800"
-        >
-          <h2 className="text-xl font-semibold text-white mb-6">Sign In</h2>
-
-          {error && (
-            <div className="bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-4 text-sm">
-              {error}
-            </div>
-          )}
-
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                placeholder="you@example.com"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                placeholder="••••••••"
-              />
-            </div>
+      {/* Right half - Form */}
+      <div className="flex-1 flex items-center justify-center px-6 relative z-10">
+        <div className="w-full max-w-md">
+          {/* Mobile characters */}
+          <div className="lg:hidden flex justify-center mb-6">
+            <EmojiCharacters peeking={!passwordFocused} />
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-medium py-2.5 px-4 rounded-lg transition-colors"
-          >
-            {loading ? "Signing in..." : "Sign In"}
-          </button>
+          <div className="glass-card p-8">
+            <div className="text-center mb-8">
+              <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+                PaperTrade
+              </h1>
+              <p className="mt-1" style={{ color: "var(--text-muted)" }}>
+                Sign in to your account
+              </p>
+            </div>
 
-          <p className="text-center text-gray-400 text-sm mt-4">
-            Don&apos;t have an account?{" "}
-            <Link to="/register" className="text-emerald-400 hover:text-emerald-300">
-              Create one
-            </Link>
-          </p>
-        </form>
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/30 text-red-500 px-4 py-3 rounded-xl mb-5 text-sm">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 rounded-xl theme-input"
+                  placeholder="you@example.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onFocus={() => setPasswordFocused(true)}
+                  onBlur={() => setPasswordFocused(false)}
+                  required
+                  className="w-full px-4 py-3 rounded-xl theme-input"
+                  placeholder="Enter your password"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 px-4 rounded-xl font-semibold text-white transition-all disabled:opacity-50 hover:shadow-lg hover:shadow-emerald-500/25"
+                style={{ background: "var(--accent)" }}
+                onMouseOver={(e) => (e.target.style.background = "var(--accent-hover)")}
+                onMouseOut={(e) => (e.target.style.background = "var(--accent)")}
+              >
+                {loading ? "Signing in..." : "Sign In"}
+              </button>
+            </form>
+
+            <p className="text-center text-sm mt-6" style={{ color: "var(--text-muted)" }}>
+              Don&apos;t have an account?{" "}
+              <Link to="/register" className="font-semibold hover:underline" style={{ color: "var(--accent)" }}>
+                Create one
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

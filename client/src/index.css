@@ -1,1 +1,167 @@
 @import "tailwindcss";
+
+/* ── Theme variables ── */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-input: #f1f5f9;
+  --bg-sidebar: #ffffff;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --auth-gradient-start: #e0f2fe;
+  --auth-gradient-mid: #f0fdf4;
+  --auth-gradient-end: #fef3c7;
+  --auth-blob-1: rgba(16, 185, 129, 0.2);
+  --auth-blob-2: rgba(59, 130, 246, 0.15);
+  --auth-blob-3: rgba(245, 158, 11, 0.15);
+}
+
+.dark {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #111118;
+  --bg-card: #16161e;
+  --bg-input: #1e1e2a;
+  --bg-sidebar: #111118;
+  --border: #2a2a3a;
+  --border-light: #1e1e2a;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #0f172a;
+  --accent: #10b981;
+  --accent-hover: #34d399;
+  --glass-bg: rgba(17, 17, 24, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --auth-gradient-start: #0a0a1a;
+  --auth-gradient-mid: #0a1a0f;
+  --auth-gradient-end: #1a1a0a;
+  --auth-blob-1: rgba(16, 185, 129, 0.08);
+  --auth-blob-2: rgba(59, 130, 246, 0.06);
+  --auth-blob-3: rgba(245, 158, 11, 0.06);
+}
+
+/* ── Base ── */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ── Glass card ── */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 1.25rem;
+}
+
+/* ── Auth page animated background ── */
+.auth-bg {
+  background: linear-gradient(135deg, var(--auth-gradient-start), var(--auth-gradient-mid), var(--auth-gradient-end));
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-bg::before,
+.auth-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 8s ease-in-out infinite;
+}
+
+.auth-bg::before {
+  width: 400px;
+  height: 400px;
+  background: var(--auth-blob-1);
+  top: -100px;
+  right: -100px;
+  animation-delay: 0s;
+}
+
+.auth-bg::after {
+  width: 350px;
+  height: 350px;
+  background: var(--auth-blob-2);
+  bottom: -80px;
+  left: -80px;
+  animation-delay: -4s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* Extra blob for more depth */
+.auth-blob {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: var(--auth-blob-3);
+  filter: blur(80px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+/* ── Theme card (for inner pages) ── */
+.theme-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-input {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.theme-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
