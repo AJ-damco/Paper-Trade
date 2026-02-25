@@ -7,6 +7,7 @@ const userRoutes = require("./routes/user");
 const tradeRoutes = require("./routes/trade");
 const portfolioRoutes = require("./routes/portfolio");
 const watchlistRoutes = require("./routes/watchlist");
+const aiRoutes = require("./routes/ai");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,6 +27,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/trade", tradeRoutes);
 app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/watchlist", watchlistRoutes);
+app.use("/api/ai", aiRoutes);
 
 // Start server
 app.listen(PORT, () => {
