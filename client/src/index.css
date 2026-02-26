@@ -24,6 +24,19 @@
   --auth-blob-1: rgba(16, 185, 129, 0.2);
   --auth-blob-2: rgba(59, 130, 246, 0.15);
   --auth-blob-3: rgba(245, 158, 11, 0.15);
+  /* Dashboard glass */
+  --dash-glass-bg: rgba(255, 255, 255, 0.7);
+  --dash-glass-border: rgba(255, 255, 255, 0.5);
+  --dash-glass-glow: rgba(16, 185, 129, 0.06);
+  --dash-gradient-1: linear-gradient(135deg, #10b981, #3b82f6);
+  --dash-gradient-2: linear-gradient(135deg, #f59e0b, #ef4444);
+  --dash-gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
+  --dash-chart-bg: rgba(255, 255, 255, 0.5);
+  --dash-receipt-bg: rgba(248, 250, 252, 0.8);
+  --chart-green: #10b981;
+  --chart-red: #ef4444;
+  --chart-grid: rgba(148, 163, 184, 0.15);
+  --chart-dashed: rgba(148, 163, 184, 0.3);
 }
 
 .dark {
@@ -49,6 +62,19 @@
   --auth-blob-1: rgba(16, 185, 129, 0.08);
   --auth-blob-2: rgba(59, 130, 246, 0.06);
   --auth-blob-3: rgba(245, 158, 11, 0.06);
+  /* Dashboard glass */
+  --dash-glass-bg: rgba(22, 22, 30, 0.6);
+  --dash-glass-border: rgba(255, 255, 255, 0.06);
+  --dash-glass-glow: rgba(16, 185, 129, 0.08);
+  --dash-gradient-1: linear-gradient(135deg, #10b981, #3b82f6);
+  --dash-gradient-2: linear-gradient(135deg, #f59e0b, #ef4444);
+  --dash-gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
+  --dash-chart-bg: rgba(22, 22, 30, 0.4);
+  --dash-receipt-bg: rgba(30, 30, 42, 0.5);
+  --chart-green: #34d399;
+  --chart-red: #f87171;
+  --chart-grid: rgba(100, 116, 139, 0.1);
+  --chart-dashed: rgba(100, 116, 139, 0.25);
 }
 
 /* ── Base ── */
@@ -149,6 +175,85 @@ body {
 
 .theme-input::placeholder {
   color: var(--text-muted);
+}
+
+/* ── Dashboard glass card ── */
+.dash-glass {
+  background: var(--dash-glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--dash-glass-border);
+  border-radius: 1.25rem;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dash-glass:hover {
+  box-shadow: 0 8px 40px var(--dash-glass-glow);
+}
+
+/* ── Dashboard stat card with gradient border ── */
+.dash-stat-card {
+  position: relative;
+  background: var(--dash-glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1.25rem;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--dash-glass-border), transparent 60%);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+.dash-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px var(--dash-glass-glow);
+}
+
+/* ── Gradient text utility ── */
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Chart bar glow ── */
+.chart-glow-green {
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.4));
+}
+.chart-glow-red {
+  filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.4));
+}
+
+/* ── Pulse dot animation ── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* ── Shimmer loading effect ── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.05) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
 }
 
 /* ── Scrollbar ── */
