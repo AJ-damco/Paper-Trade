@@ -28,7 +28,12 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex auth-bg">
+    <div className="min-h-screen flex auth-bg relative overflow-hidden">
+      {/* Full-screen wave gradient */}
+      <div className="auth-wave-bg" />
+      <div className="auth-wave-bg auth-wave-bg-2" />
+      <div className="auth-wave-bg auth-wave-bg-3" />
+
       {/* Theme toggle */}
       <button
         onClick={toggleTheme}
@@ -46,12 +51,9 @@ export default function Register() {
         )}
       </button>
 
-      {/* Left half - Wave gradient + Interstellar title */}
-      <div className="hidden lg:flex flex-1 items-center justify-center relative overflow-hidden">
-        <div className="auth-wave-bg" />
-        <div className="auth-wave-bg auth-wave-bg-2" />
-        <div className="auth-wave-bg auth-wave-bg-3" />
-        <div className="relative z-10 text-center px-8">
+      {/* Left half - Title */}
+      <div className="hidden lg:flex flex-1 items-center justify-center relative z-10">
+        <div className="text-center px-8">
           <h1 className="interstellar-title">
             Paper<br />Trade
           </h1>

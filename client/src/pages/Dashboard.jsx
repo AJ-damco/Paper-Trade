@@ -57,10 +57,12 @@ function getDateRange() {
 function RoundedBar(props) {
   const { x, y, width, height, value, index } = props;
   if (!height || height === 0) return null;
-  const radius = Math.min(6, width / 2, Math.abs(height) / 2);
-  const isPositive = value >= 0;
   const h = Math.abs(height);
-  const barY = isPositive ? y : y;
+  const radius = Math.min(6, width / 2, h / 2);
+  const isPositive = value >= 0;
+  // Recharts passes negative height for negative-value bars.
+  // y points to the bottom of the bar; shift up so rect starts at zero line.
+  const barY = height < 0 ? y + height : y;
   return (
     <g>
       <defs>
@@ -285,7 +287,7 @@ export default function Dashboard() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={weeklyData} barCategoryGap="35%" margin={{ top: 10, right: 10, left: 5, bottom: 20 }}>
+            <BarChart data={weeklyData} barCategoryGap="35%" margin={{ top: 10, right: 10, left: 5, bottom: 25 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
               <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: "var(--text-muted)", fontSize: 12 }} dy={8} />
               <YAxis

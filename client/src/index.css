@@ -218,9 +218,9 @@ body {
   66% { transform: translate(-20px, 20px) scale(0.95); }
 }
 
-/* ── Auth page moving wave gradient ── */
+/* ── Auth page moving wave gradient (full screen) ── */
 .auth-wave-bg {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: linear-gradient(
     135deg,
@@ -259,30 +259,19 @@ body {
   100% { background-position: 0% 50%;   }
 }
 
-/* ── Interstellar bold title ── */
+/* ── Paper Trade title ── */
 .interstellar-title {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 5rem;
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: 0.06em;
   line-height: 1;
   text-transform: uppercase;
-  background: linear-gradient(
-    135deg,
-    var(--text-primary) 0%,
-    var(--accent) 40%,
-    #3b82f6 60%,
-    var(--text-primary) 100%
-  );
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: interstellar-shimmer 6s linear infinite;
+  color: #000000;
 }
 
-@keyframes interstellar-shimmer {
-  0%   { background-position: 0% center; }
-  100% { background-position: 200% center; }
+.dark .interstellar-title {
+  color: #ffffff;
 }
 
 /* ── Theme card (for inner pages) ── */
