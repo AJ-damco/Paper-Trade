@@ -18,12 +18,12 @@
   --glass-bg: rgba(255, 255, 255, 0.6);
   --glass-border: rgba(255, 255, 255, 0.4);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --auth-gradient-start: #e0f2fe;
-  --auth-gradient-mid: #f0fdf4;
-  --auth-gradient-end: #fef3c7;
-  --auth-blob-1: rgba(16, 185, 129, 0.2);
-  --auth-blob-2: rgba(59, 130, 246, 0.15);
-  --auth-blob-3: rgba(245, 158, 11, 0.15);
+  --auth-gradient-start: #C7EABB;
+  --auth-gradient-mid: #E8F5BD;
+  --auth-gradient-end: #ffffff;
+  --auth-blob-1: rgba(255, 112, 112, 0.25);
+  --auth-blob-2: rgba(53, 88, 114, 0.2);
+  --auth-blob-3: rgba(199, 234, 187, 0.25);
   /* Dashboard / page glass */
   --dash-glass-bg: rgba(255, 255, 255, 0.55);
   --dash-glass-border: rgba(255, 255, 255, 0.6);
@@ -64,12 +64,12 @@
   --glass-bg: rgba(17, 17, 24, 0.7);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --auth-gradient-start: #0a0a1a;
-  --auth-gradient-mid: #0a1a0f;
-  --auth-gradient-end: #1a1a0a;
-  --auth-blob-1: rgba(16, 185, 129, 0.08);
-  --auth-blob-2: rgba(59, 130, 246, 0.06);
-  --auth-blob-3: rgba(245, 158, 11, 0.06);
+  --auth-gradient-start: #1a0f0f;
+  --auth-gradient-mid: #0f1a14;
+  --auth-gradient-end: #0c1220;
+  --auth-blob-1: rgba(255, 112, 112, 0.1);
+  --auth-blob-2: rgba(53, 88, 114, 0.12);
+  --auth-blob-3: rgba(199, 234, 187, 0.08);
   /* Dashboard / page glass */
   --dash-glass-bg: rgba(22, 22, 30, 0.6);
   --dash-glass-border: rgba(255, 255, 255, 0.06);
@@ -263,7 +263,7 @@ body {
 .interstellar-title {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 5rem;
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: 0.06em;
   line-height: 1;
   text-transform: uppercase;

@@ -75,10 +75,7 @@ export default function Register() {
 
           <div className="glass-card p-8">
             <div className="text-center mb-8">
-              <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
-                PaperTrade
-              </h1>
-              <p className="mt-1" style={{ color: "var(--text-muted)" }}>
+              <p style={{ color: "var(--text-muted)" }}>
                 Create your account
               </p>
             </div>
