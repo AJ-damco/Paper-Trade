@@ -24,19 +24,27 @@
   --auth-blob-1: rgba(16, 185, 129, 0.2);
   --auth-blob-2: rgba(59, 130, 246, 0.15);
   --auth-blob-3: rgba(245, 158, 11, 0.15);
-  /* Dashboard glass */
-  --dash-glass-bg: rgba(255, 255, 255, 0.7);
-  --dash-glass-border: rgba(255, 255, 255, 0.5);
-  --dash-glass-glow: rgba(16, 185, 129, 0.06);
+  /* Dashboard / page glass */
+  --dash-glass-bg: rgba(255, 255, 255, 0.55);
+  --dash-glass-border: rgba(255, 255, 255, 0.6);
+  --dash-glass-glow: rgba(16, 185, 129, 0.08);
   --dash-gradient-1: linear-gradient(135deg, #10b981, #3b82f6);
   --dash-gradient-2: linear-gradient(135deg, #f59e0b, #ef4444);
   --dash-gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
   --dash-chart-bg: rgba(255, 255, 255, 0.5);
-  --dash-receipt-bg: rgba(248, 250, 252, 0.8);
+  --dash-receipt-bg: rgba(241, 245, 249, 0.6);
   --chart-green: #10b981;
   --chart-red: #ef4444;
   --chart-grid: rgba(148, 163, 184, 0.15);
   --chart-dashed: rgba(148, 163, 184, 0.3);
+  /* Main gradient background */
+  --main-gradient: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 20%, #e0f2fe 50%, #f0f9ff 70%, #fef3c7 100%);
+  --blob-1: rgba(16, 185, 129, 0.12);
+  --blob-2: rgba(59, 130, 246, 0.08);
+  --blob-3: rgba(245, 158, 11, 0.08);
+  /* Sidebar glass */
+  --sidebar-bg: rgba(255, 255, 255, 0.65);
+  --sidebar-border: rgba(226, 232, 240, 0.6);
 }
 
 .dark {
@@ -62,10 +70,10 @@
   --auth-blob-1: rgba(16, 185, 129, 0.08);
   --auth-blob-2: rgba(59, 130, 246, 0.06);
   --auth-blob-3: rgba(245, 158, 11, 0.06);
-  /* Dashboard glass */
+  /* Dashboard / page glass */
   --dash-glass-bg: rgba(22, 22, 30, 0.6);
   --dash-glass-border: rgba(255, 255, 255, 0.06);
-  --dash-glass-glow: rgba(16, 185, 129, 0.08);
+  --dash-glass-glow: rgba(16, 185, 129, 0.1);
   --dash-gradient-1: linear-gradient(135deg, #10b981, #3b82f6);
   --dash-gradient-2: linear-gradient(135deg, #f59e0b, #ef4444);
   --dash-gradient-3: linear-gradient(135deg, #8b5cf6, #ec4899);
@@ -75,6 +83,14 @@
   --chart-red: #f87171;
   --chart-grid: rgba(100, 116, 139, 0.1);
   --chart-dashed: rgba(100, 116, 139, 0.25);
+  /* Main gradient background */
+  --main-gradient: linear-gradient(135deg, #0a0a0f 0%, #0d1117 20%, #0a0f1a 50%, #0f0a1a 70%, #0a0a0f 100%);
+  --blob-1: rgba(16, 185, 129, 0.06);
+  --blob-2: rgba(59, 130, 246, 0.04);
+  --blob-3: rgba(139, 92, 246, 0.04);
+  /* Sidebar glass */
+  --sidebar-bg: rgba(17, 17, 24, 0.75);
+  --sidebar-border: rgba(255, 255, 255, 0.05);
 }
 
 /* ── Base ── */
@@ -86,6 +102,70 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ── Main gradient background ── */
+.main-gradient {
+  background: var(--main-gradient);
+  position: relative;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── Ambient gradient blobs ── */
+.gradient-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  animation: float 12s ease-in-out infinite;
+}
+
+.gradient-blob-1 {
+  width: 500px;
+  height: 500px;
+  background: var(--blob-1);
+  top: -100px;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.gradient-blob-2 {
+  width: 400px;
+  height: 400px;
+  background: var(--blob-2);
+  bottom: 10%;
+  left: 30%;
+  animation-delay: -4s;
+}
+
+.gradient-blob-3 {
+  width: 350px;
+  height: 350px;
+  background: var(--blob-3);
+  top: 40%;
+  right: 30%;
+  animation-delay: -8s;
+}
+
+/* ── Sidebar glass ── */
+.sidebar-glass {
+  background: var(--sidebar-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid var(--sidebar-border);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* ── Nav item styles ── */
+.nav-active {
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.06);
+}
+
+.nav-inactive:hover {
+  background: rgba(148, 163, 184, 0.06) !important;
 }
 
 /* ── Glass card ── */
@@ -177,7 +257,7 @@ body {
   color: var(--text-muted);
 }
 
-/* ── Dashboard glass card ── */
+/* ── Dashboard / page glass card ── */
 .dash-glass {
   background: var(--dash-glass-bg);
   backdrop-filter: blur(24px);
@@ -254,6 +334,21 @@ body {
   background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.05) 50%, transparent 75%);
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
+}
+
+/* ── Stock search input ── */
+.search-glass {
+  background: var(--dash-glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--dash-glass-border);
+  border-radius: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-glass:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1), 0 8px 32px var(--dash-glass-glow);
 }
 
 /* ── Scrollbar ── */

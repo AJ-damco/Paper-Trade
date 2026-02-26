@@ -10,6 +10,7 @@ import Trade from "./pages/Trade";
 import Watchlist from "./pages/Watchlist";
 import History from "./pages/History";
 import AIInsights from "./pages/AIInsights";
+import Stocks from "./pages/Stocks";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
               }
             >
               <Route path="/" element={<Dashboard />} />
+              <Route path="/stocks" element={<Stocks />} />
               <Route path="/trade" element={<Trade />} />
               <Route path="/watchlist" element={<Watchlist />} />
               <Route path="/history" element={<History />} />

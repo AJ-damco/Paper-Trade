@@ -4,6 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1" },
+  { to: "/stocks", label: "Stocks", icon: "M3 4h18M3 8h18M3 12h12M3 16h6" },
   { to: "/trade", label: "Trade", icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" },
   { to: "/watchlist", label: "Watchlist", icon: "M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" },
   { to: "/history", label: "History", icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" },
@@ -21,23 +22,33 @@ export default function Layout() {
   };
 
   return (
-    <div className="min-h-screen flex" style={{ background: "var(--bg-primary)", transition: "background 0.3s ease" }}>
+    <div className="min-h-screen flex main-gradient">
+      {/* Ambient gradient blobs */}
+      <div className="gradient-blob gradient-blob-1" />
+      <div className="gradient-blob gradient-blob-2" />
+      <div className="gradient-blob gradient-blob-3" />
+
       {/* Sidebar */}
-      <aside
-        className="w-64 flex flex-col fixed h-full"
-        style={{
-          background: "var(--bg-sidebar)",
-          borderRight: "1px solid var(--border)",
-          transition: "background 0.3s ease, border-color 0.3s ease",
-        }}
-      >
-        <div className="px-6 py-5" style={{ borderBottom: "1px solid var(--border)" }}>
-          <h1 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>
-            PaperTrade
-          </h1>
-          <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>
-            Trading Simulator
-          </p>
+      <aside className="sidebar-glass w-64 flex flex-col fixed h-full z-20">
+        <div className="px-6 py-5" style={{ borderBottom: "1px solid var(--sidebar-border)" }}>
+          <div className="flex items-center gap-2.5">
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center"
+              style={{ background: "var(--dash-gradient-1)" }}
+            >
+              <svg className="w-4.5 h-4.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+            </div>
+            <div>
+              <h1 className="text-base font-bold" style={{ color: "var(--text-primary)" }}>
+                PaperTrade
+              </h1>
+              <p className="text-[10px] leading-tight" style={{ color: "var(--text-muted)" }}>
+                Trading Simulator
+              </p>
+            </div>
+          </div>
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1">
@@ -47,14 +58,12 @@ export default function Layout() {
               to={item.to}
               end={item.to === "/"}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  isActive
-                    ? "text-emerald-500"
-                    : ""
+                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  isActive ? "nav-active" : "nav-inactive"
                 }`
               }
               style={({ isActive }) => ({
-                background: isActive ? "rgba(16, 185, 129, 0.1)" : "transparent",
+                background: isActive ? "rgba(16, 185, 129, 0.12)" : "transparent",
                 color: isActive ? "var(--accent)" : "var(--text-secondary)",
               })}
             >
@@ -73,11 +82,10 @@ export default function Layout() {
         </nav>
 
         {/* Theme toggle + User */}
-        <div className="px-4 py-4" style={{ borderTop: "1px solid var(--border)" }}>
-          {/* Theme toggle */}
+        <div className="px-4 py-4" style={{ borderTop: "1px solid var(--sidebar-border)" }}>
           <button
             onClick={toggleTheme}
-            className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors mb-3"
+            className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all mb-3"
             style={{ color: "var(--text-secondary)" }}
           >
             {theme === "dark" ? (
@@ -103,7 +111,7 @@ export default function Layout() {
             </div>
             <button
               onClick={handleLogout}
-              className="transition-colors ml-2 hover:text-red-400"
+              className="transition-colors ml-2 hover:text-red-400 p-1.5 rounded-lg"
               style={{ color: "var(--text-muted)" }}
               title="Sign out"
             >
@@ -116,7 +124,7 @@ export default function Layout() {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 ml-64 p-8">
+      <main className="flex-1 ml-64 p-8 relative z-10">
         <Outlet />
       </main>
     </div>
