@@ -285,10 +285,24 @@ export default function Dashboard() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={weeklyData} barCategoryGap="35%" margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+            <BarChart data={weeklyData} barCategoryGap="35%" margin={{ top: 10, right: 10, left: 5, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
-              <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: "var(--text-muted)", fontSize: 12 }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: "var(--text-muted)", fontSize: 11 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} width={50} />
+              <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: "var(--text-muted)", fontSize: 12 }} dy={8} />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+                tickFormatter={(v) => {
+                  const abs = Math.abs(v);
+                  if (abs >= 1000) return `${v < 0 ? "-" : ""}$${(abs / 1000).toFixed(1)}k`;
+                  return `$${v.toFixed(0)}`;
+                }}
+                width={55}
+                domain={[
+                  (dataMin) => { const pad = Math.abs(dataMin) * 0.15; return Math.floor(dataMin - pad); },
+                  (dataMax) => { const pad = Math.abs(dataMax) * 0.15; return Math.ceil(dataMax + pad); },
+                ]}
+              />
               <ReferenceLine y={0} stroke="var(--chart-dashed)" strokeDasharray="6 4" />
               <Tooltip content={<ChartTooltip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
               <Bar dataKey="value" shape={<RoundedBar />} maxBarSize={36} barSize={32}>

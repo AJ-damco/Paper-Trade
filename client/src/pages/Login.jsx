@@ -1,35 +1,16 @@
-import { useState, useRef, useCallback } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
-import EmojiCharacters from "../components/EmojiCharacters";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [passwordFocused, setPasswordFocused] = useState(false);
-  const [scared, setScared] = useState(false);
-  const scaredTimer = useRef(null);
   const { login } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
-
-  const triggerScared = useCallback(() => {
-    setScared(true);
-    clearTimeout(scaredTimer.current);
-    scaredTimer.current = setTimeout(() => setScared(false), 600);
-  }, []);
-
-  const handlePasswordKeyDown = useCallback(
-    (e) => {
-      if (e.key === "Backspace" || e.key === "Delete") {
-        triggerScared();
-      }
-    },
-    [triggerScared]
-  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,29 +45,29 @@ export default function Login() {
         )}
       </button>
 
-      <div className="auth-blob" />
-
-      {/* Left half - Characters */}
-      <div className="hidden lg:flex flex-1 items-center justify-center relative z-10">
-        <div className="text-center">
-          <EmojiCharacters peeking={!passwordFocused} scared={scared} passwordFilled={password.length > 0 && passwordFocused} />
-          <div className="mt-8">
-            <h2 className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
-              Welcome Back!
-            </h2>
-            <p className="mt-2 text-lg" style={{ color: "var(--text-secondary)" }}>
-              Your portfolio is waiting for you
-            </p>
-          </div>
+      {/* Left half - Wave gradient + Interstellar title */}
+      <div className="hidden lg:flex flex-1 items-center justify-center relative overflow-hidden">
+        <div className="auth-wave-bg" />
+        <div className="auth-wave-bg auth-wave-bg-2" />
+        <div className="auth-wave-bg auth-wave-bg-3" />
+        <div className="relative z-10 text-center px-8">
+          <h1 className="interstellar-title">
+            Paper<br />Trade
+          </h1>
+          <p className="mt-6 text-lg font-light tracking-wide" style={{ color: "var(--text-secondary)" }}>
+            Your portfolio is waiting for you
+          </p>
         </div>
       </div>
 
       {/* Right half - Form */}
       <div className="flex-1 flex items-center justify-center px-6 relative z-10">
         <div className="w-full max-w-md">
-          {/* Mobile characters */}
-          <div className="lg:hidden flex justify-center mb-6">
-            <EmojiCharacters peeking={!passwordFocused} scared={scared} passwordFilled={password.length > 0 && passwordFocused} />
+          {/* Mobile title */}
+          <div className="lg:hidden text-center mb-8">
+            <h1 className="interstellar-title" style={{ fontSize: "3rem" }}>
+              Paper Trade
+            </h1>
           </div>
 
           <div className="glass-card p-8">
@@ -128,9 +109,6 @@ export default function Login() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  onFocus={() => setPasswordFocused(true)}
-                  onBlur={() => setPasswordFocused(false)}
-                  onKeyDown={handlePasswordKeyDown}
                   required
                   className="w-full px-4 py-3 rounded-xl theme-input"
                   placeholder="Enter your password"
