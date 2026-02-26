@@ -55,23 +55,24 @@ function getDateRange() {
 }
 
 function RoundedBar(props) {
-  const { x, y, width, height, value } = props;
+  const { x, y, width, height, value, index } = props;
   if (!height || height === 0) return null;
-  const radius = Math.min(6, width / 2);
+  const radius = Math.min(6, width / 2, Math.abs(height) / 2);
   const isPositive = value >= 0;
   const h = Math.abs(height);
+  const barY = isPositive ? y : y;
   return (
     <g>
       <defs>
-        <linearGradient id={`bar-grad-${isPositive ? "green" : "red"}`} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={`bar-grad-${index}-${isPositive ? "green" : "red"}`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={isPositive ? "#34d399" : "#f87171"} stopOpacity={0.9} />
           <stop offset="100%" stopColor={isPositive ? "#059669" : "#dc2626"} stopOpacity={0.6} />
         </linearGradient>
       </defs>
       <rect
-        x={x} y={y} width={width} height={h}
+        x={x} y={barY} width={width} height={h}
         rx={radius} ry={radius}
-        fill={`url(#bar-grad-${isPositive ? "green" : "red"})`}
+        fill={`url(#bar-grad-${index}-${isPositive ? "green" : "red"})`}
         style={{ filter: `drop-shadow(0 0 6px ${isPositive ? "rgba(16,185,129,0.3)" : "rgba(239,68,68,0.3)"})` }}
       />
     </g>
@@ -284,13 +285,13 @@ export default function Dashboard() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={weeklyData} barCategoryGap="20%">
+            <BarChart data={weeklyData} barCategoryGap="35%" margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
               <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: "var(--text-muted)", fontSize: 12 }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: "var(--text-muted)", fontSize: 11 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} width={50} />
               <ReferenceLine y={0} stroke="var(--chart-dashed)" strokeDasharray="6 4" />
               <Tooltip content={<ChartTooltip />} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
-              <Bar dataKey="value" shape={<RoundedBar />} maxBarSize={48}>
+              <Bar dataKey="value" shape={<RoundedBar />} maxBarSize={36} barSize={32}>
                 {weeklyData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.value >= 0 ? "var(--chart-green)" : "var(--chart-red)"} opacity={entry.isFuture ? 0.2 : 1} />
                 ))}

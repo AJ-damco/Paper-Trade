@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
@@ -10,9 +10,26 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
+  const [scared, setScared] = useState(false);
+  const scaredTimer = useRef(null);
   const { login } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+
+  const triggerScared = useCallback(() => {
+    setScared(true);
+    clearTimeout(scaredTimer.current);
+    scaredTimer.current = setTimeout(() => setScared(false), 600);
+  }, []);
+
+  const handlePasswordKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Backspace" || e.key === "Delete") {
+        triggerScared();
+      }
+    },
+    [triggerScared]
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,7 +69,7 @@ export default function Login() {
       {/* Left half - Characters */}
       <div className="hidden lg:flex flex-1 items-center justify-center relative z-10">
         <div className="text-center">
-          <EmojiCharacters peeking={!passwordFocused} />
+          <EmojiCharacters peeking={!passwordFocused} scared={scared} passwordFilled={password.length > 0 && passwordFocused} />
           <div className="mt-8">
             <h2 className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
               Welcome Back!
@@ -69,7 +86,7 @@ export default function Login() {
         <div className="w-full max-w-md">
           {/* Mobile characters */}
           <div className="lg:hidden flex justify-center mb-6">
-            <EmojiCharacters peeking={!passwordFocused} />
+            <EmojiCharacters peeking={!passwordFocused} scared={scared} passwordFilled={password.length > 0 && passwordFocused} />
           </div>
 
           <div className="glass-card p-8">
@@ -113,6 +130,7 @@ export default function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   onFocus={() => setPasswordFocused(true)}
                   onBlur={() => setPasswordFocused(false)}
+                  onKeyDown={handlePasswordKeyDown}
                   required
                   className="w-full px-4 py-3 rounded-xl theme-input"
                   placeholder="Enter your password"
