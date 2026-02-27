@@ -2,7 +2,7 @@
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "npm install && cd server && npm install && cd .. && npx prisma generate"
+    "buildCommand": "npm install && cd server && npm install && DATABASE_URL=\"postgresql://dummy:dummy@localhost:5432/dummy\" npx prisma generate --schema=../prisma/schema.prisma"
   },
   "deploy": {
     "startCommand": "npx prisma migrate deploy && cd server && npm start",
