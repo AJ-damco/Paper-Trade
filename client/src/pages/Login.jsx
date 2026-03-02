@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
+import StripeWave from "../components/StripeWave";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -28,10 +29,8 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex auth-bg relative overflow-hidden">
-      {/* Full-screen wave gradient */}
-      <div className="auth-wave-bg" />
-      <div className="auth-wave-bg auth-wave-bg-2" />
-      <div className="auth-wave-bg auth-wave-bg-3" />
+      {/* Stripe-style animated beam background */}
+      <StripeWave isDark={theme === "dark"} />
 
       {/* Theme toggle */}
       <button

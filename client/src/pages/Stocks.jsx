@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../lib/api";
 
 function formatMoney(n) {
@@ -39,6 +39,7 @@ const SECTOR_COLORS = {
 };
 
 export default function Stocks() {
+  const navigate = useNavigate();
   const [quotes, setQuotes] = useState([]);
   const [search, setSearch] = useState("");
   const [sectorFilter, setSectorFilter] = useState("All");
@@ -165,16 +166,25 @@ export default function Stocks() {
             </h3>
             <div className="space-y-2.5">
               {gainers.map((q) => (
-                <div key={q.symbol} className="flex items-center justify-between p-2.5 rounded-xl" style={{ background: "var(--dash-receipt-bg)" }}>
+                <div
+                  key={q.symbol}
+                  className="flex items-center justify-between p-2.5 rounded-xl cursor-pointer hover:opacity-80 transition-opacity"
+                  style={{ background: "var(--dash-receipt-bg)" }}
+                  onClick={() => navigate(`/stock/${q.symbol}`)}
+                >
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold"
-                      style={{ background: "rgba(16, 185, 129, 0.12)", color: "var(--chart-green)" }}
+                      className="w-8 h-8 rounded-lg flex items-center justify-center font-bold"
+                      style={{
+                        background: "rgba(16, 185, 129, 0.12)",
+                        color: "var(--chart-green)",
+                        fontSize: q.symbol.length <= 3 ? "10px" : "8px",
+                      }}
                     >
-                      {q.symbol.slice(0, 2)}
+                      {q.symbol}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{q.symbol}</p>
+                      <p className="text-sm font-bold font-mono tracking-wide" style={{ color: "var(--text-primary)" }}>{q.symbol}</p>
                       <p className="text-xs" style={{ color: "var(--text-muted)" }}>{STOCK_META[q.symbol]?.name}</p>
                     </div>
                   </div>
@@ -195,16 +205,25 @@ export default function Stocks() {
             </h3>
             <div className="space-y-2.5">
               {losers.map((q) => (
-                <div key={q.symbol} className="flex items-center justify-between p-2.5 rounded-xl" style={{ background: "var(--dash-receipt-bg)" }}>
+                <div
+                  key={q.symbol}
+                  className="flex items-center justify-between p-2.5 rounded-xl cursor-pointer hover:opacity-80 transition-opacity"
+                  style={{ background: "var(--dash-receipt-bg)" }}
+                  onClick={() => navigate(`/stock/${q.symbol}`)}
+                >
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold"
-                      style={{ background: "rgba(239, 68, 68, 0.12)", color: "var(--chart-red)" }}
+                      className="w-8 h-8 rounded-lg flex items-center justify-center font-bold"
+                      style={{
+                        background: "rgba(239, 68, 68, 0.12)",
+                        color: "var(--chart-red)",
+                        fontSize: q.symbol.length <= 3 ? "10px" : "8px",
+                      }}
                     >
-                      {q.symbol.slice(0, 2)}
+                      {q.symbol}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{q.symbol}</p>
+                      <p className="text-sm font-bold font-mono tracking-wide" style={{ color: "var(--text-primary)" }}>{q.symbol}</p>
                       <p className="text-xs" style={{ color: "var(--text-muted)" }}>{STOCK_META[q.symbol]?.name}</p>
                     </div>
                   </div>
@@ -242,18 +261,23 @@ export default function Stocks() {
             return (
               <div
                 key={q.symbol}
-                className="dash-stat-card p-5 group"
+                className="dash-stat-card p-5 group cursor-pointer"
+                onClick={() => navigate(`/stock/${q.symbol}`)}
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold"
-                      style={{ background: `${sectorColor}18`, color: sectorColor }}
+                      className="w-10 h-10 rounded-xl flex items-center justify-center font-bold"
+                      style={{
+                        background: `${sectorColor}18`,
+                        color: sectorColor,
+                        fontSize: q.symbol.length <= 3 ? "11px" : "9px",
+                      }}
                     >
-                      {q.symbol.slice(0, 2)}
+                      {q.symbol}
                     </div>
                     <div>
-                      <p className="font-semibold" style={{ color: "var(--text-primary)" }}>{q.symbol}</p>
+                      <p className="font-bold font-mono tracking-wide" style={{ color: "var(--text-primary)" }}>{q.symbol}</p>
                       <p className="text-xs" style={{ color: "var(--text-muted)" }}>{meta.name || q.symbol}</p>
                     </div>
                   </div>
@@ -287,6 +311,7 @@ export default function Stocks() {
                   </div>
                   <Link
                     to={`/trade?symbol=${q.symbol}`}
+                    onClick={(e) => e.stopPropagation()}
                     className="text-xs font-medium px-3 py-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100"
                     style={{
                       background: "var(--accent)",
